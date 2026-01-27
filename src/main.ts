@@ -20,29 +20,17 @@
 //   </div>
 // `
 
-
+const Monday = 1;
+const Tuesday = 2;
+const Wednesday = 3;
+const Thursday = 4;
 const Friday = 5;
+const Saturday = 6;
 
 ((appContainer: HTMLDivElement | null) => {
   if (!appContainer) {
     return;
   }
-
-  [
-    { 
-      name: "EIE3105",
-      weekday: Friday,
-      startsAt: {
-        hour: 8,
-        minutes: 30
-      },
-      endsAt: {
-        hour: 11,
-        minutes: 30
-      }
-    }
-  ];
-
 
   // Array.from({length: 7})
 
@@ -80,6 +68,7 @@ const Friday = 5;
   const makeGridChildDiv = (): HTMLDivElement => {
     const div = document.createElement("div");
     styleGridChildDiv(div);
+    div.style.backgroundColor = "rgb(127 127 127)";
     used += 1;
     console.log(`used: ${used}`);
     return div;
@@ -103,17 +92,19 @@ const Friday = 5;
       timetableContainer.appendChild(makeGridChildDivWithContent(['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][i], 1, i + 1, 2, i + 2));
     });
 
-    Array
+    const timeGrid = Array
     .from({length: 19})
     .map((_, i) => {
       const date = new Date();
       date.setHours(8, 30);
       date.setSeconds(0, 0);
       date.setTime(date.getTime() + ((1000*60*30) * i));
-      return date.toLocaleTimeString();
-    })
-    .forEach((contentText, i) => {
-      timetableContainer.appendChild(makeGridChildDivWithContent(contentText, 2 + i, 1, 2 + i + 1, 2));
+      return { hour: date.getHours(), minutes: date.getMinutes()  }
+    });
+
+
+    timeGrid.forEach(({hour, minutes}, i) => {
+      timetableContainer.appendChild(makeGridChildDivWithContent(`${`${hour}`.padStart(2, "0")}:${`${minutes}`.padStart(2, "0")}`, 2 + i, 1, 2 + i + 1, 2));
     });
 
 
@@ -122,14 +113,49 @@ const Friday = 5;
 
     {
       [
-        {
-
+        { 
+          name: "EIE3105",
+          weekday: Monday,
+          startsAt: {
+            hour: 8,
+            minutes: 30
+          },
+          endsAt: {
+            hour: 11,
+            minutes: 30
+          }
+        },
+        { 
+          name: "EIE4413",
+          weekday: Monday,
+          startsAt: {
+            hour: 15,
+            minutes: 30
+          },
+          endsAt: {
+            hour: 16,
+            minutes: 30
+          }
+        },
+        { 
+          name: "EIE3312 Lab",
+          weekday: Tuesday,
+          startsAt: {
+            hour: 12,
+            minutes: 30
+          },
+          endsAt: {
+            hour: 15,
+            minutes: 30
+          }
         }
       ].forEach((item) => {
-        const weekdayNumeric = 1;
-        const offset = 0;//numOfHalfHoursSession after 830 am
-        const numOfHalfHoursSession = 6;
-        timetableContainer.appendChild(makeGridChildDivWithContent(`3105`, startRowIndex + offset, weekdayNumeric + 1, startRowIndex + offset + numOfHalfHoursSession, weekdayNumeric + 2));
+        const startIndex = timeGrid.findIndex(time => time.hour == item.startsAt.hour && time.minutes == item.startsAt.minutes);
+        const endIndex = timeGrid.findIndex(time => time.hour == item.endsAt.hour && time.minutes == item.endsAt.minutes);
+        const weekdayNumeric = item.weekday;
+        const offset = startIndex;//numOfHalfHoursSession after 830 am
+        const numOfHalfHoursSession = endIndex - startIndex;
+        timetableContainer.appendChild(makeGridChildDivWithContent(`${item.name}`, startRowIndex + offset, weekdayNumeric + 1, startRowIndex + offset + numOfHalfHoursSession, weekdayNumeric + 2));
       })
     }
 

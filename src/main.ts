@@ -44,7 +44,7 @@ const Saturday = 6;
   </div>
   */
   const columns = 7;
-  const rows = 20;
+  const rows = 22;
   
   const timetableContainer: HTMLDivElement = document.createElement("div");
   timetableContainer.style.display = "grid";
@@ -93,7 +93,7 @@ const Saturday = 6;
     });
 
     const timeGrid = Array
-    .from({length: 19})
+    .from({length: rows - 1})
     .map((_, i) => {
       const date = new Date();
       date.setHours(8, 30);
@@ -113,42 +113,12 @@ const Saturday = 6;
 
     {
       [
-        { 
-          name: "EIE3105",
-          weekday: Monday,
-          startsAt: {
-            hour: 8,
-            minutes: 30
-          },
-          endsAt: {
-            hour: 11,
-            minutes: 30
-          }
-        },
-        { 
-          name: "EIE4413",
-          weekday: Monday,
-          startsAt: {
-            hour: 15,
-            minutes: 30
-          },
-          endsAt: {
-            hour: 16,
-            minutes: 30
-          }
-        },
-        { 
-          name: "EIE3312 Lab",
-          weekday: Tuesday,
-          startsAt: {
-            hour: 12,
-            minutes: 30
-          },
-          endsAt: {
-            hour: 15,
-            minutes: 30
-          }
-        }
+        { name: "EIE3312 Lecture", weekday: Monday, startsAt: { hour: 8, minutes: 30 }, endsAt: { hour: 11, minutes: 30 } },
+        { name: "EIE4413 Lecture", weekday: Monday, startsAt: { hour: 15, minutes: 30 }, endsAt: { hour: 16, minutes: 30 } },
+        { name: "EIE3312 Lab", weekday: Tuesday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
+        { name: "EIE3333 Lecture", weekday: Wednesday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
+        { name: "EIE3105 Lab", weekday: Friday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
+        { name: "EIE3105 Lecture", weekday: Friday, startsAt: { hour: 16, minutes: 30 }, endsAt: { hour: 18, minutes: 30 } }
       ].forEach((item) => {
         const startIndex = timeGrid.findIndex(time => time.hour == item.startsAt.hour && time.minutes == item.startsAt.minutes);
         const endIndex = timeGrid.findIndex(time => time.hour == item.endsAt.hour && time.minutes == item.endsAt.minutes);

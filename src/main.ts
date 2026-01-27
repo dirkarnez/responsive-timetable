@@ -103,12 +103,34 @@ const Friday = 5;
       timetableContainer.appendChild(makeGridChildDivWithContent(['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][i], 1, i + 1, 2, i + 2));
     });
 
+    Array
+    .from({length: 19})
+    .map((_, i) => {
+      const date = new Date();
+      date.setHours(8, 30);
+      date.setSeconds(0, 0);
+      date.setTime(date.getTime() + ((1000*60*30) * i));
+      return date.toLocaleTimeString();
+    })
+    .forEach((contentText, i) => {
+      timetableContainer.appendChild(makeGridChildDivWithContent(contentText, 2 + i, 1, 2 + i + 1, 2));
+    });
+
+
+
+    const startRowIndex = 2;
 
     {
-      const startRowIndex = 2;
-      const weekday = 1;
-      const numOfHalfHoursSession = 4;
-      timetableContainer.appendChild(makeGridChildDivWithContent(`3105`, startRowIndex, weekday + 1, startRowIndex + numOfHalfHoursSession, weekday + 2));
+      [
+        {
+
+        }
+      ].forEach((item) => {
+        const weekdayNumeric = 1;
+        const offset = 0;//numOfHalfHoursSession after 830 am
+        const numOfHalfHoursSession = 6;
+        timetableContainer.appendChild(makeGridChildDivWithContent(`3105`, startRowIndex + offset, weekdayNumeric + 1, startRowIndex + offset + numOfHalfHoursSession, weekdayNumeric + 2));
+      })
     }
 
     Array

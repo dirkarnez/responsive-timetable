@@ -48,6 +48,7 @@ const Saturday = 6;
   
   const timetableContainer: HTMLDivElement = document.createElement("div");
   timetableContainer.style.display = "grid";
+  timetableContainer.style.border = "solid rgb(0, 0, 0)";
   timetableContainer.style.backgroundColor = "dodgerblue";
   timetableContainer.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
   timetableContainer.style.gridTemplateRows = `repeat(${rows}, 1fr)`;

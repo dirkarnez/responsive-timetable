@@ -55,37 +55,69 @@ const Friday = 5;
     <div>5</div>
   </div>
   */
-  const timetableContainer: HTMLDivElement = document.createElement("div");
-  timetableContainer.classList.add("container");
-  {
-    Array
-    .from({length: 6})
-    .forEach((_, i) => {
-      const element = document.createElement("div");
-      element.innerText = `${i + 1}`;
-      element.style.gridArea = `1 / ${i + 1} / 2 / ${i + 2}`;
-      timetableContainer.appendChild(element);
-    });
-  }
+  const columns = 7;
+  const rows = 20;
   
-  {
-    const startIndex = 2;
-    const weekday = 1;
-    const numOfHalfHoursSession = 4;
-    const lesson = document.createElement("div");
-    lesson.style.gridArea = `${startIndex} / ${weekday} / ${startIndex + numOfHalfHoursSession} / ${weekday + 1}`;
-    timetableContainer.appendChild(lesson);
+  const timetableContainer: HTMLDivElement = document.createElement("div");
+  timetableContainer.style.display = "grid";
+  timetableContainer.style.backgroundColor = "dodgerblue";
+  timetableContainer.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+  timetableContainer.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+  timetableContainer.style.columnGap = "0px";
+  timetableContainer.style.rowGap = "0px";
+
+  var used = 0;
+
+  const styleGridChildDiv = (div: HTMLDivElement) => {
+    div.style.backgroundColor = "#f1f1f1";
+    div.style.color = "#000";
+    div.style.padding = "10px";
+    div.style.border = "#000 solid";
+    div.style.fontSize = "30px";
+    div.style.textAlign = "center";
+  };
+
+  const makeGridChildDiv = (): HTMLDivElement => {
+    const div = document.createElement("div");
+    styleGridChildDiv(div);
+    used += 1;
+    console.log(`used: ${used}`);
+    return div;
   }
 
+  const makeGridChildDivWithContent = (innerText: string, rstart: number, cstart: number, rendExclusive: number, cendExclusive: number): HTMLDivElement  => {
+    const div = document.createElement("div");
+    styleGridChildDiv(div);
+    div.style.gridArea = `${rstart} / ${cstart} / ${rendExclusive} / ${cendExclusive}`;// `1 / ${i + 1} / 2 / ${i + 2}`;
+    const occupied = (rendExclusive - rstart) * (cendExclusive - cstart);
+    used += occupied;
+    console.log(`used: ${used}`);
+    div.innerText = innerText;
+    return div;
+  }
+
+  {
+    Array
+    .from({length: 7})
+    .forEach((_, i) => {
+      timetableContainer.appendChild(makeGridChildDivWithContent(['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][i], 1, i + 1, 2, i + 2));
+    });
+
+
     {
-      const startIndex = 2;
-      const startOffset = 3;
-      const weekday = 2;
+      const startRowIndex = 2;
+      const weekday = 1;
       const numOfHalfHoursSession = 4;
-      const lesson = document.createElement("div");
-      lesson.style.gridArea = `${startIndex + startOffset} / ${weekday} / ${startIndex + startOffset + numOfHalfHoursSession} / ${weekday + 1}`;
-      timetableContainer.appendChild(lesson);
+      timetableContainer.appendChild(makeGridChildDivWithContent(`3105`, startRowIndex, weekday + 1, startRowIndex + numOfHalfHoursSession, weekday + 2));
     }
+
+    Array
+    .from({length: (columns * rows) - used})
+    .forEach(() => {
+      timetableContainer.appendChild(makeGridChildDiv());
+    });
+  }
+
   appContainer.appendChild(timetableContainer);
 
 })(document.querySelector<HTMLDivElement>('#app')!)

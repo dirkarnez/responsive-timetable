@@ -102,23 +102,20 @@ const Saturday = 6;
       return { hour: date.getHours(), minutes: date.getMinutes()  }
     });
 
-
     timeGrid.forEach(({hour, minutes}, i) => {
       timetableContainer.appendChild(makeGridChildDivWithContent(`${`${hour}`.padStart(2, "0")}:${`${minutes}`.padStart(2, "0")}`, 2 + i, 1, 2 + i + 1, 2));
     });
 
-
-
-    const startRowIndex = 2;
+    const startRowIndex = 2; // header used index 1
 
     {
       [
-        { name: "EIE3312 Lecture", weekday: Monday, startsAt: { hour: 8, minutes: 30 }, endsAt: { hour: 11, minutes: 30 } },
-        { name: "EIE4413 Lecture", weekday: Monday, startsAt: { hour: 15, minutes: 30 }, endsAt: { hour: 16, minutes: 30 } },
-        { name: "EIE3312 Lab", weekday: Tuesday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
-        { name: "EIE3333 Lecture", weekday: Wednesday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
-        { name: "EIE3105 Lab", weekday: Friday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
-        { name: "EIE3105 Lecture", weekday: Friday, startsAt: { hour: 16, minutes: 30 }, endsAt: { hour: 18, minutes: 30 } }
+        { name: "EIE3312 Lecture (TU201)", weekday: Monday, startsAt: { hour: 8, minutes: 30 }, endsAt: { hour: 11, minutes: 30 } },
+        { name: "EIE4413 Lecture (DE303)", weekday: Monday, startsAt: { hour: 15, minutes: 30 }, endsAt: { hour: 16, minutes: 30 } },
+        { name: "EIE3312 Lab (CF105 / CD514)", weekday: Tuesday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
+        { name: "EIE3333 Lecture (TU201)", weekday: Wednesday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
+        { name: "EIE3105 Lab (CF502)", weekday: Friday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
+        { name: "EIE3105 Lecture (CF502)", weekday: Friday, startsAt: { hour: 16, minutes: 30 }, endsAt: { hour: 18, minutes: 30 } }
       ].forEach((item) => {
         const startIndex = timeGrid.findIndex(time => time.hour == item.startsAt.hour && time.minutes == item.startsAt.minutes);
         const endIndex = timeGrid.findIndex(time => time.hour == item.endsAt.hour && time.minutes == item.endsAt.minutes);

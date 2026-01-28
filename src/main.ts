@@ -102,28 +102,30 @@ const Saturday = 6;
       date.setTime(date.getTime() + ((1000*60*30) * i));
       return { hour: date.getHours(), minutes: date.getMinutes()  }
     });
-
+    
     timeGrid.forEach(({hour, minutes}, i) => {
       timetableContainer.appendChild(makeGridChildDivWithContent(`${`${hour}`.padStart(2, "0")}:${`${minutes}`.padStart(2, "0")}`, 2 + i, 1, 2 + i + 1, 2));
     });
 
     const startRowIndex = 2; // header used index 1
 
+
+
     {
       [
-        { name: "EIE3312 Lecture (TU201)", weekday: Monday, startsAt: { hour: 8, minutes: 30 }, endsAt: { hour: 11, minutes: 30 } },
-        { name: "EIE4413 Lecture (DE303)", weekday: Monday, startsAt: { hour: 15, minutes: 30 }, endsAt: { hour: 16, minutes: 30 } },
-        { name: "EIE3312 Lab (CF105 / CD514)", weekday: Tuesday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
-        { name: "EIE3333 Lecture (TU201)", weekday: Wednesday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
-        { name: "EIE3105 Lab (CF502)", weekday: Friday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
-        { name: "EIE3105 Lecture (CF502)", weekday: Friday, startsAt: { hour: 16, minutes: 30 }, endsAt: { hour: 18, minutes: 30 } }
+        { subject: "EIE3312", venue: "TU201", component: "Lecture", weekday: Monday, startsAt: { hour: 8, minutes: 30 }, endsAt: { hour: 11, minutes: 30 } },
+        { subject: "EIE4413", venue: "DE303", component: "Lecture", weekday: Monday, startsAt: { hour: 15, minutes: 30 }, endsAt: { hour: 16, minutes: 30 } },
+        { subject: "EIE3312", venue: "CF105 / CD514", component: "Lab", weekday: Tuesday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
+        { subject: "EIE3333", venue: "TU201", component: "Lecture", weekday: Wednesday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
+        { subject: "EIE3105", venue: "CF502", component: "Lab", weekday: Friday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
+        { subject: "EIE3105", venue: "CF502", component: "Lecture", weekday: Friday, startsAt: { hour: 16, minutes: 30 }, endsAt: { hour: 18, minutes: 30 } }
       ].forEach((item) => {
         const startIndex = timeGrid.findIndex(time => time.hour == item.startsAt.hour && time.minutes == item.startsAt.minutes);
         const endIndex = timeGrid.findIndex(time => time.hour == item.endsAt.hour && time.minutes == item.endsAt.minutes);
         const weekdayNumeric = item.weekday;
         const offset = startIndex;//numOfHalfHoursSession after 830 am
         const numOfHalfHoursSession = endIndex - startIndex;
-        timetableContainer.appendChild(makeGridChildDivWithContent(`${item.name}`, startRowIndex + offset, weekdayNumeric + 1, startRowIndex + offset + numOfHalfHoursSession, weekdayNumeric + 2));
+        timetableContainer.appendChild(makeGridChildDivWithContent(`${item.subject} ${item.component} (${item.venue})`, startRowIndex + offset, weekdayNumeric + 1, startRowIndex + offset + numOfHalfHoursSession, weekdayNumeric + 2));
       })
     }
 

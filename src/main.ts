@@ -109,23 +109,59 @@ const Saturday = 6;
 
     const startRowIndex = 2; // header used index 1
 
+    interface SessionTime {
+      hour: number, 
+      minutes: number
+    }
+    
+    interface ISession {
+      subject: string
+      venue: string
+      component: string
+      weekday: number
+      startsAt: SessionTime
+      endsAt: SessionTime
+    }
 
-
+    class Session extends Object implements ISession {
+        public subject: string;
+        public venue: string;
+        public component: string;
+        public weekday: number;
+        public startsAt: SessionTime;
+        public endsAt: SessionTime;
+    
+        constructor (session: ISession) {
+            super();
+            this.street = session.street;
+            this.subject = session.subject;
+            this.venue = session.venue;
+            this.component = session.component;
+            this.weekday = session.weekday;
+            this.startsAt = session.startsAt;
+            this.endsAt = session.endsAt;
+        }
+    
+        override toString () {
+            return `${item.subject} ${item.component} (${item.venue})`;
+        }
+    }
+    
     {
       [
-        { subject: "EIE3312", venue: "TU201", component: "Lecture", weekday: Monday, startsAt: { hour: 8, minutes: 30 }, endsAt: { hour: 11, minutes: 30 } },
-        { subject: "EIE4413", venue: "DE303", component: "Lecture", weekday: Monday, startsAt: { hour: 15, minutes: 30 }, endsAt: { hour: 16, minutes: 30 } },
-        { subject: "EIE3312", venue: "CF105 / CD514", component: "Lab", weekday: Tuesday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
-        { subject: "EIE3333", venue: "TU201", component: "Lecture", weekday: Wednesday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
-        { subject: "EIE3105", venue: "CF502", component: "Lab", weekday: Friday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } },
-        { subject: "EIE3105", venue: "CF502", component: "Lecture", weekday: Friday, startsAt: { hour: 16, minutes: 30 }, endsAt: { hour: 18, minutes: 30 } }
-      ].forEach((item) => {
+        new Session({ subject: "EIE3312", venue: "TU201", component: "Lecture", weekday: Monday, startsAt: { hour: 8, minutes: 30 }, endsAt: { hour: 11, minutes: 30 } }),
+        new Session({ subject: "EIE4413", venue: "DE303", component: "Lecture", weekday: Monday, startsAt: { hour: 15, minutes: 30 }, endsAt: { hour: 16, minutes: 30 } }),
+        new Session({ subject: "EIE3312", venue: "CF105 / CD514", component: "Lab", weekday: Tuesday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } }),
+        new Session({ subject: "EIE3333", venue: "TU201", component: "Lecture", weekday: Wednesday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } }),
+        new Session({ subject: "EIE3105", venue: "CF502", component: "Lab", weekday: Friday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } }),
+        new Session({ subject: "EIE3105", venue: "CF502", component: "Lecture", weekday: Friday, startsAt: { hour: 16, minutes: 30 }, endsAt: { hour: 18, minutes: 30 } })
+      ].forEach((item: Session) => {
         const startIndex = timeGrid.findIndex(time => time.hour == item.startsAt.hour && time.minutes == item.startsAt.minutes);
         const endIndex = timeGrid.findIndex(time => time.hour == item.endsAt.hour && time.minutes == item.endsAt.minutes);
         const weekdayNumeric = item.weekday;
         const offset = startIndex;//numOfHalfHoursSession after 830 am
         const numOfHalfHoursSession = endIndex - startIndex;
-        timetableContainer.appendChild(makeGridChildDivWithContent(`${item.subject} ${item.component} (${item.venue})`, startRowIndex + offset, weekdayNumeric + 1, startRowIndex + offset + numOfHalfHoursSession, weekdayNumeric + 2));
+        timetableContainer.appendChild(makeGridChildDivWithContent(item.toString(), startRowIndex + offset, weekdayNumeric + 1, startRowIndex + offset + numOfHalfHoursSession, weekdayNumeric + 2));
       })
     }
 

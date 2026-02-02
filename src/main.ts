@@ -133,7 +133,6 @@ const Saturday = 6;
     
         constructor (session: ISession) {
             super();
-            this.street = session.street;
             this.subject = session.subject;
             this.venue = session.venue;
             this.component = session.component;

@@ -143,7 +143,7 @@ const Saturday = 6;
         }
     
         override toString () {
-            return `${item.subject} ${item.component} (${item.venue})`;
+            return `${this.subject} ${this.component} (${this.venue})`;
         }
     }
     
@@ -165,11 +165,13 @@ const Saturday = 6;
       })
     }
 
-    Array
-    .from({length: (columns * rows) - used})
-    .forEach(() => {
-      timetableContainer.appendChild(makeGridChildDiv());
-    });
+    {
+      Array
+      .from({length: (columns * rows) - used})
+      .forEach(() => {
+        timetableContainer.appendChild(makeGridChildDiv());
+      });
+    }
   }
 
   appContainer.appendChild(timetableContainer);

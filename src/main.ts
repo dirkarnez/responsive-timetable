@@ -96,15 +96,18 @@ const Saturday = 6;
     const timeGrid = Array
     .from({length: rows - 1})
     .map((_, i) => {
-      const date = new Date();
-      date.setHours(8, 30);
-      date.setSeconds(0, 0);
-      date.setTime(date.getTime() + ((1000*60*30) * i));
-      return { hour: date.getHours(), minutes: date.getMinutes()  }
+      const eightThirty = new Date();
+      eightThirty.setHours(8, 30);
+      eightThirty.setSeconds(0, 0);
+      
+      const dateFrom = new Date(eightThirty.getTime() + ((1000*60*30) * i));
+      const dateTo = new Date(eightThirty.getTime() + ((1000*60*30) * (i + 1)));
+      
+      return { hourFrom: dateFrom.getHours(), minutesFrom: dateFrom.getMinutes(), hourTo: dateTo.getHours(), minutesTo: dateTo.getMinutes()  }
     });
     
-    timeGrid.forEach(({hour, minutes}, i) => {
-      timetableContainer.appendChild(makeGridChildDivWithContent(`${`${hour}`.padStart(2, "0")}:${`${minutes}`.padStart(2, "0")}`, 2 + i, 1, 2 + i + 1, 2));
+    timeGrid.forEach(({hourFrom, minutesFrom, hourTo, minutesTo}, i) => {
+      timetableContainer.appendChild(makeGridChildDivWithContent(`${`${hourFrom}`.padStart(2, "0")}:${`${minutesFrom}`.padStart(2, "0")} - ${`${hourTo}`.padStart(2, "0")}:${`${minutesTo}`.padStart(2, "0")}`, 2 + i, 1, 2 + i + 1, 2));
     });
 
     const startRowIndex = 2; // header used index 1

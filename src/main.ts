@@ -103,11 +103,11 @@ const Saturday = 6;
       const dateFrom = new Date(eightThirty.getTime() + ((1000*60*30) * i));
       const dateTo = new Date(eightThirty.getTime() + ((1000*60*30) * (i + 1)));
       
-      return { hourFrom: dateFrom.getHours(), minutesFrom: dateFrom.getMinutes(), hourTo: dateTo.getHours(), minutesTo: dateTo.getMinutes()  }
+      return { hoursFrom: dateFrom.getHours(), minutesFrom: dateFrom.getMinutes(), hoursTo: dateTo.getHours(), minutesTo: dateTo.getMinutes() };
     });
     
-    timeGrid.forEach(({hourFrom, minutesFrom, hourTo, minutesTo}, i) => {
-      timetableContainer.appendChild(makeGridChildDivWithContent(`${`${hourFrom}`.padStart(2, "0")}:${`${minutesFrom}`.padStart(2, "0")} - ${`${hourTo}`.padStart(2, "0")}:${`${minutesTo}`.padStart(2, "0")}`, 2 + i, 1, 2 + i + 1, 2));
+    timeGrid.forEach(({hoursFrom, minutesFrom, hoursTo, minutesTo}, i) => {
+      timetableContainer.appendChild(makeGridChildDivWithContent(`${`${hoursFrom}`.padStart(2, "0")}:${`${minutesFrom}`.padStart(2, "0")} - ${`${hoursTo}`.padStart(2, "0")}:${`${minutesTo}`.padStart(2, "0")}`, 2 + i, 1, 2 + i + 1, 2));
     });
 
     const startRowIndex = 2; // header used index 1
@@ -158,8 +158,8 @@ const Saturday = 6;
         new Session({ subject: "EIE3105", venue: "CF502", component: "Lab", weekday: Friday, startsAt: { hour: 12, minutes: 30 }, endsAt: { hour: 15, minutes: 30 } }),
         new Session({ subject: "EIE3105", venue: "CF502", component: "Lecture", weekday: Friday, startsAt: { hour: 16, minutes: 30 }, endsAt: { hour: 18, minutes: 30 } })
       ].forEach((item: Session) => {
-        const startIndex = timeGrid.findIndex(time => time.hour == item.startsAt.hour && time.minutes == item.startsAt.minutes);
-        const endIndex = timeGrid.findIndex(time => time.hour == item.endsAt.hour && time.minutes == item.endsAt.minutes);
+        const startIndex = timeGrid.findIndex(time => time.hoursFrom == item.startsAt.hour && time.minutesFrom == item.startsAt.minutes);
+        const endIndex = timeGrid.findIndex(time => time.hoursFrom == item.endsAt.hour && time.minutesFrom == item.endsAt.minutes);
         const weekdayNumeric = item.weekday;
         const offset = startIndex;//numOfHalfHoursSession after 830 am
         const numOfHalfHoursSession = endIndex - startIndex;
